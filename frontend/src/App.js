@@ -9,9 +9,7 @@ import Main from "./components/MainComponent";
 class App extends Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            persons:[]
-        }
+
     }
 
     componentDidMount() {
