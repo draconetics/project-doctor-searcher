@@ -15,7 +15,7 @@ class Home extends Component {
         console.log("Main render es invocado");
         return (
             <div>
-                HOME
+                HOME 2
             </div>
         );
     }

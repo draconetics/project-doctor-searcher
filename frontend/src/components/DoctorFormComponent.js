@@ -7,11 +7,13 @@ class DoctorForm extends Component {
 
     constructor(props, context) {
         super(props, context);
+        const editDoctor = this.props.editDoctor;
+        console.log(this.props);
         this.state = {
-            firstname: '',
-            lastname: '',
-            title: '',
-            email: '',
+            firstname: (editDoctor)?editDoctor.name:'',
+            lastname: (editDoctor)?editDoctor.last_name:'',
+            title: (editDoctor)?editDoctor.title:'',
+            email: (editDoctor)?editDoctor.email:'',
             touched: {
                 firstname: false,
                 lastname: false,
@@ -85,6 +87,7 @@ class DoctorForm extends Component {
         axios.post(this.props.urlBackend + '/doctor', objetoDoctor).then(response => {
           console.log("send the doctor");
           console.log(response);
+          this.props.refreshDoctors();
           this.props.history.push({
              pathname:"/doctor",
              state:{
@@ -104,8 +107,9 @@ class DoctorForm extends Component {
     };
 
     createForm() {
-
+        
       const errors = this.validate(this.state.firstname, this.state.lastname, this.state.title, this.state.email);
+
         return (
                   <Form onSubmit={this.handleSubmit}>
                             <FormGroup row>

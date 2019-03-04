@@ -9,36 +9,36 @@ class DoctorList extends Component {
 
     constructor(props, context) {
         super(props, context);
-        let doctorParameter = this.props.location.state.doctorUpdated;
-        this.state = {
-            doctors: null,
-            doctorUpdated: (doctorParameter)?doctorParameter:null
-        };
-        console.log("Main constructor es invocado");
+        
+        console.log(this.props);
+        console.log("doctorlist constructor");
     }
 
-    componentDidMount() {
-        console.log("didmount !!");
-        this._refreshDoctors();
-    }
 
-    _refreshDoctors() {
-        axios.get('http://localhost:4000/doctor').then((res) => {
-          console.log(res.data);
-          this.setState({
-            doctors: res.data
-          });
-        }).catch((error)=>{
-            console.log(error);
-           // console.log(new Error(error));
-        });
-    }
+/*   editDoctor(doctor) {
+    console.log("changing the data");
+    this.setState({
+      editDoctor: doctor
+    }, this.props.history.push({ pathname:"/doctor/form"  }) );
+    
+  }*/
+
+  updateBook(){
+    let {title, rating} = this.state.editBookData;
+    axios.put('http://localhost:3001/books/' + this.state.editBookData.id, {title,rating})
+    .then((response) => {
+      this._refreshBooks();
+      this.setState({
+        editBookModal: false, editBookData: {id:'',title:'', rating:''}
+      });
+    });
+  }
 
 
 
     render() {
-
-        const doctors = this.state.doctors;
+        //<Button color="secondary" size="sm" tag={Link} to="/doctor/form">Delete</Button>
+        const doctors = this.props.doctors;
         if(doctors == null){
             return (<div></div>);
         }
@@ -52,19 +52,19 @@ class DoctorList extends Component {
                             <td>{doctor.title}</td>
                             <td>{doctor.email}</td>
                             <td>
-                                <Button color="primary" size="sm" tag={Link} to="/doctor/form">Edit</Button>
+                                <Button color="primary" size="sm" onClick={(doctor)=>this.editDoctor(doctor)}>Edit</Button>
                                 <Button color="secondary" size="sm" tag={Link} to="/doctor/form">Delete</Button>
                             </td>
                 </tr>);
         });
-        console.log("DoctorList es invocado");
-        console.log(this.state);
+        console.log("render DoctorList es invocado");
         console.log(this.props);
+        console.log(this.props.doctorUpdated);
 
         return (
             <div>
             <Container>
-                <Message object={this.state.doctorUpdated}/>
+               <Message object={this.props.doctorUpdated}/>
                 <Row>
                 <div>
                     <Button color="danger" tag={Link} to="/doctor/form" >

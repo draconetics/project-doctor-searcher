@@ -9,6 +9,7 @@ class Message extends Component {
 
 	render () {
 		let object = this.props.object;
+		//console.log(this.props);
 		if( object == null) 
 			return (<div></div>);
 
